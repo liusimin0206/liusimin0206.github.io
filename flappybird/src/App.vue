@@ -3,14 +3,15 @@
     <StartGame
       :handleTimes="this.handleTimes"
       @StartGame="handleStartGame"
-      v-if="!isStartGame"
+      v-if="!isStartGame && !isOverGame"
     ></StartGame>
     <PlayingGame
       :handleTimes="this.handleTimes"
       :isStartGame="isStartGame"
-      v-if="isStartGame"
+      v-if="isStartGame && !isOverGame"
+      @gameOver="handleGameOver"
     ></PlayingGame>
-    <EndGame></EndGame>
+    <EndGame v-if="!isStartGame && isOverGame" @restart="restart"></EndGame>
   </div>
 </template>
 
@@ -26,14 +27,13 @@ export default {
       backgroundMoveSpeed: 2,
       backgroundMoveX: 0,
       handleTimes: 0,
-      isStartGame: false
+      isStartGame: false,
+      timer: 0,
+      isOverGame: false
     };
   },
   created() {
-    setInterval(() => {
-      this.handleTimes++;
-      this.backgroundMoveX -= this.backgroundMoveSpeed;
-    }, 30);
+    this.init();
   },
   computed: {
     backgroundMoveXStr: function() {
@@ -41,9 +41,26 @@ export default {
     }
   },
   methods: {
+    init() {
+      this.handleTimes = 0;
+      this.timer = setInterval(() => {
+        this.handleTimes++;
+        this.backgroundMoveX -= this.backgroundMoveSpeed;
+      }, 30);
+    },
     handleStartGame(val) {
       this.isStartGame = val;
       this.backgroundMoveSpeed = 5;
+    },
+    handleGameOver(val) {
+      this.isOverGame = !val;
+      this.isStartGame = val;
+      clearInterval(this.timer);
+    },
+    restart() {
+      this.init();
+      this.isStartGame = true;
+      this.isOverGame = false;
     }
   }
 };

@@ -3,8 +3,7 @@
     class="bird"
     :style="{
       top: this.topOfBird2Str,
-      backgroundPositionX: backgroundPositionX2Str,
-      transition: birdTransition
+      backgroundPositionX: backgroundPositionX2Str
     }"
   ></div>
 </template>
@@ -21,7 +20,7 @@ export default {
   props: {
     isStartGame: Boolean,
     isActive: Boolean,
-    handleTimes: { type: Number, default: 0 },
+
     isStartbirdJump: { type: Boolean, default: true },
     isStartbirdFly: { type: Boolean, default: true },
     minTopOfBird: { type: Number, default: 0 },
@@ -38,12 +37,6 @@ export default {
       if (this.backgroundPositionX <= -60) {
         this.backgroundPositionX = 0;
       } else this.backgroundPositionX -= 30;
-    },
-    birdDrop() {
-      this.topOfBird += ++this.birdStepY;
-    },
-    birdClickJump() {
-      this.birdStepY = -10;
     }
   },
   computed: {
@@ -52,9 +45,6 @@ export default {
     },
     backgroundPositionX2Str: function() {
       return this.backgroundPositionX + "px";
-    },
-    birdTransition() {
-      return this.isStartGame ? "none" : "";
     }
   },
   watch: {
@@ -70,11 +60,6 @@ export default {
         }
       },
       immediate: true
-    },
-    handleTimes: function() {
-      if (this.isStartGame) {
-        // this.birdDrop();
-      }
     }
   }
 };

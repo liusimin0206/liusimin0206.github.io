@@ -1,5 +1,5 @@
 <template>
-  <div class="endGame" :class="{ displayNone: !false }">
+  <div class="endGame">
     <div class="title">
       <div class="over">Game over</div>
       <div class="result">Your Results:</div>
@@ -11,7 +11,7 @@
           <span class="rank-time">{{ item.time }}</span>
         </li>
       </ul>
-      <div class="restart">重新开始</div>
+      <div class="restart" @click="restart">重新开始</div>
     </div>
   </div>
 </template>
@@ -26,7 +26,11 @@ export default {
       ]
     };
   },
-  methods: {}
+  methods: {
+    restart() {
+      this.$emit("restart", true);
+    }
+  }
 };
 </script>
 
