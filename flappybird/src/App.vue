@@ -81,7 +81,7 @@ export default {
   background-image: url("./assets/img/sky1.png");
   // background-position-x: 0;
   background-repeat: repeat-x;
-  background-size: contain;
+  background-size: auto 100%;
   // background-repeat: no-repeat;
   background-attachment: fixed;
   transition: background-position-x 0.03s linear;
