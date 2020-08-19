@@ -1,13 +1,12 @@
 <template>
-  <div>
-    <div
-      class="bird"
-      :style="{
-        top: this.topOfBird2Str,
-        backgroundPositionX: backgroundPositionX2Str
-      }"
-    ></div>
-  </div>
+  <div
+    class="bird"
+    :style="{
+      top: this.topOfBird2Str,
+      backgroundPositionX: backgroundPositionX2Str,
+      transition: birdTransition
+    }"
+  ></div>
 </template>
 
 <script>
@@ -15,14 +14,18 @@ export default {
   data() {
     return {
       topOfBird: 0,
-      backgroundPositionX: 0
+      backgroundPositionX: 0,
+      birdStepY: 0
     };
   },
   props: {
     isStartGame: Boolean,
-    isStartbirdJump: Boolean,
-    minTopOfBird: Number,
-    maxTopOfBird: Number
+    isActive: Boolean,
+    handleTimes: { type: Number, default: 0 },
+    isStartbirdJump: { type: Boolean, default: true },
+    isStartbirdFly: { type: Boolean, default: true },
+    minTopOfBird: { type: Number, default: 0 },
+    maxTopOfBird: { type: Number, default: 50 }
   },
   methods: {
     startbirdJump() {
@@ -35,6 +38,12 @@ export default {
       if (this.backgroundPositionX <= -60) {
         this.backgroundPositionX = 0;
       } else this.backgroundPositionX -= 30;
+    },
+    birdDrop() {
+      this.topOfBird += ++this.birdStepY;
+    },
+    birdClickJump() {
+      this.birdStepY = -10;
     }
   },
   computed: {
@@ -43,17 +52,29 @@ export default {
     },
     backgroundPositionX2Str: function() {
       return this.backgroundPositionX + "px";
+    },
+    birdTransition() {
+      return this.isStartGame ? "none" : "";
     }
   },
   watch: {
-    isStartbirdJump: {
+    isActive: {
       handler(newVal) {
         if (newVal) {
-          this.startbirdJump();
-          this.birdfly();
+          if (this.isStartbirdJump) {
+            this.startbirdJump();
+          }
+          if (this.isStartbirdFly) {
+            this.birdfly();
+          }
         }
       },
       immediate: true
+    },
+    handleTimes: function() {
+      if (this.isStartGame) {
+        // this.birdDrop();
+      }
     }
   }
 };
@@ -63,7 +84,6 @@ export default {
 .bird {
   position: absolute;
   left: 50%;
-  top: 30px;
   width: 30px;
   height: 30px;
   transform: translateX(-50%);

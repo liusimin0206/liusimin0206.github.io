@@ -5,7 +5,11 @@
       @StartGame="handleStartGame"
       v-if="!isStartGame"
     ></StartGame>
-    <PlayingGame :isStartGame="isStartGame" v-if="isStartGame"></PlayingGame>
+    <PlayingGame
+      :handleTimes="this.handleTimes"
+      :isStartGame="isStartGame"
+      v-if="isStartGame"
+    ></PlayingGame>
     <EndGame></EndGame>
   </div>
 </template>
@@ -39,6 +43,7 @@ export default {
   methods: {
     handleStartGame(val) {
       this.isStartGame = val;
+      this.backgroundMoveSpeed = 5;
     }
   }
 };
@@ -54,5 +59,6 @@ export default {
   background-size: contain;
   // background-repeat: no-repeat;
   background-attachment: fixed;
+  transition: background-position-x 0.03s linear;
 }
 </style>

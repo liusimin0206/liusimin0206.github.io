@@ -3,7 +3,8 @@
     <div class="title">
       <Bird
         :isStartGame="isStartGame"
-        :isStartbirdJump="isStartbirdJump"
+        :isActive="isActive"
+        :isStartbirdJump="!isStartGame"
         :minTopOfBird="0"
         :maxTopOfBird="50"
       ></Bird>
@@ -44,7 +45,7 @@ export default {
     }
   },
   watch: {
-    isStartbirdJump: function(newVal) {
+    isActive: function(newVal) {
       if (newVal) {
         this.startBound();
       }
@@ -54,7 +55,7 @@ export default {
     topOfBirdStr: function() {
       return this.topOfBird + "px";
     },
-    isStartbirdJump() {
+    isActive() {
       return this.handleTimes % 10 === 0;
     }
   }
@@ -64,14 +65,13 @@ export default {
 <style scoped lang="scss">
 .startGame {
   .title {
-    position: fixed;
+    position: absolute;
     width: 150px;
     height: 150px;
-    margin: auto;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
     .startGameButton {
       position: absolute;
       width: 150px;
@@ -84,6 +84,7 @@ export default {
       font-weight: bolder;
       transition: all 0.3s linear;
       cursor: pointer;
+      user-select: none;
     }
     .startGameButton.white {
       color: #fff;
