@@ -8,10 +8,15 @@
     <PlayingGame
       :handleTimes="this.handleTimes"
       :isStartGame="isStartGame"
+      :backgroundMoveSpeed="backgroundMoveSpeed"
       v-if="isStartGame && !isOverGame"
       @gameOver="handleGameOver"
     ></PlayingGame>
-    <EndGame v-if="!isStartGame && isOverGame" @restart="restart"></EndGame>
+    <EndGame
+      v-if="!isStartGame && isOverGame"
+      @restart="restart"
+      :lastScore="lastScore"
+    ></EndGame>
   </div>
 </template>
 
@@ -29,7 +34,8 @@ export default {
       handleTimes: 0,
       isStartGame: false,
       timer: 0,
-      isOverGame: false
+      isOverGame: false,
+      lastScore: -1
     };
   },
   created() {
@@ -52,9 +58,11 @@ export default {
       this.isStartGame = val;
       this.backgroundMoveSpeed = 5;
     },
-    handleGameOver(val) {
+    // eslint-disable-next-line no-unused-vars
+    handleGameOver(val, score) {
       this.isOverGame = !val;
       this.isStartGame = val;
+      this.lastScore = score;
       clearInterval(this.timer);
     },
     restart() {
@@ -77,5 +85,6 @@ export default {
   // background-repeat: no-repeat;
   background-attachment: fixed;
   transition: background-position-x 0.03s linear;
+  overflow: hidden;
 }
 </style>
