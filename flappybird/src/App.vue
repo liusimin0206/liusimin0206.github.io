@@ -1,6 +1,11 @@
 <template>
   <div id="app" :style="{ backgroundPositionX: backgroundMoveXStr }">
-    <StartGame :handleTimes="this.handleTimes"></StartGame>
+    <StartGame
+      :handleTimes="this.handleTimes"
+      @StartGame="handleStartGame"
+      v-if="!isStartGame"
+    ></StartGame>
+    <PlayingGame :isStartGame="isStartGame" v-if="isStartGame"></PlayingGame>
     <EndGame></EndGame>
   </div>
 </template>
@@ -8,14 +13,16 @@
 <script>
 import StartGame from "@/components/StartGame";
 import EndGame from "@/components/EndGame";
+import PlayingGame from "@/components/PlayingGame";
 export default {
   name: "App",
-  components: { StartGame, EndGame },
+  components: { StartGame, EndGame, PlayingGame },
   data() {
     return {
       backgroundMoveSpeed: 2,
       backgroundMoveX: 0,
-      handleTimes: 0
+      handleTimes: 0,
+      isStartGame: false
     };
   },
   created() {
@@ -27,6 +34,11 @@ export default {
   computed: {
     backgroundMoveXStr: function() {
       return this.backgroundMoveX + "px";
+    }
+  },
+  methods: {
+    handleStartGame(val) {
+      this.isStartGame = val;
     }
   }
 };
