@@ -31,7 +31,7 @@ export default {
       locateY: 0,
       dropStepY: 0,
       bodyHeight: 1000,
-      pipeYDistance: 200,
+      pipeYDistance: 150,
       pipeData: [],
       pipeLength: 10,
       score: 0,
@@ -133,7 +133,7 @@ export default {
       }
       this.judgeKnock();
       if (this.isPassCurrentPipe()) {
-        this.score++;
+        this.score++;     
         this.currentPipeIndex++;
       }
     }
