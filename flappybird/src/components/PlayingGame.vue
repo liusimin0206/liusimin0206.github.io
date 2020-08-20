@@ -125,15 +125,15 @@ export default {
   },
   watch: {
     handleTimes() {
-      this.dropLocateY();
       this.pipeMove();
+      this.dropLocateY();
       if (this.pipeData[0].left <= -1000) {
         this.addDeletePipe();
         this.currentPipeIndex--;
       }
       this.judgeKnock();
       if (this.isPassCurrentPipe()) {
-        this.score++;     
+        this.score++;
         this.currentPipeIndex++;
       }
     }
