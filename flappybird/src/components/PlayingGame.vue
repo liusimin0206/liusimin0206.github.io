@@ -35,12 +35,14 @@ export default {
       pipeData: [],
       pipeLength: 10,
       score: 0,
-      currentPipeIndex: 0
+      currentPipeIndex: 0,
+      isClick: false
     };
   },
   components: { Bird },
   methods: {
     handleGameClick() {
+      if (!this.isClick) this.isClick = true;
       this.dropStepY = -10;
     },
     dropLocateY() {
@@ -125,17 +127,20 @@ export default {
   },
   watch: {
     handleTimes() {
-      this.pipeMove();
-      this.dropLocateY();
-      if (this.pipeData[0].left <= -1000) {
-        this.addDeletePipe();
-        this.currentPipeIndex--;
+      if (this.isClick){
+        this.pipeMove();
+        this.dropLocateY();
+        if (this.pipeData[0].left <= -1000) {
+          this.addDeletePipe();
+          this.currentPipeIndex--;
+        }
+        this.judgeKnock();
+        if (this.isPassCurrentPipe()) {
+          this.score++;
+          this.currentPipeIndex++;
+        }
       }
-      this.judgeKnock();
-      if (this.isPassCurrentPipe()) {
-        this.score++;
-        this.currentPipeIndex++;
-      }
+    
     }
   }
 };
